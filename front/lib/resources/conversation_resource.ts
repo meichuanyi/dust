@@ -2565,12 +2565,12 @@ export class ConversationResource extends BaseResource<ConversationModel> {
     auth: Authenticator,
     {
       conversation,
-      contentFragmentSId,
+      contentFragmentId,
       contentFragmentVersion,
       transaction,
     }: {
       conversation: ConversationWithoutContentType;
-      contentFragmentSId: string;
+      contentFragmentId: string;
       contentFragmentVersion?: ContentFragmentVersion;
       transaction?: Transaction;
     }
@@ -2593,7 +2593,7 @@ export class ConversationResource extends BaseResource<ConversationModel> {
           required: true,
           where: {
             workspaceId: owner.id,
-            sId: contentFragmentSId,
+            sId: contentFragmentId,
             ...(contentFragmentVersion
               ? { version: contentFragmentVersion }
               : {}),
