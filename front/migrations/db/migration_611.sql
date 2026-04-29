@@ -1,4 +1,4 @@
--- Migration created on Apr 16, 2026
+-- Migration created on Apr 29, 2026
 -- Create sandbox_mcp_actions table for sandbox-originated MCP tool calls
 -- that require user approval. Separates these from agent_mcp_actions to
 -- avoid the race condition on agent_step_contents unique index.
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS "sandbox_mcp_actions"
     "augmentedInputs"          JSONB                    NOT NULL DEFAULT '{}'
 );
 
-CREATE INDEX IF NOT EXISTS "sandbox_mcp_action_ws_msg_status"
+CREATE INDEX CONCURRENTLY "sandbox_mcp_action_ws_msg_status"
     ON "sandbox_mcp_actions" ("workspaceId", "agentMessageId", "status");
 
-CREATE INDEX IF NOT EXISTS "sandbox_mcp_actions_agent_message_id"
+CREATE INDEX CONCURRENTLY "sandbox_mcp_actions_agent_message_id"
     ON "sandbox_mcp_actions" ("agentMessageId");
