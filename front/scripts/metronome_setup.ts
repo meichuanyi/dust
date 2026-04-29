@@ -18,6 +18,7 @@ import {
   CREDIT_TYPE_USD_ID,
   DEV_CREDIT_TYPE_AWU_ID,
   DEV_CREDIT_TYPE_PROG_USD_ID,
+  PLAN_CODE_CUSTOM_FIELD_KEY,
   PROD_CREDIT_TYPE_AWU_ID,
   PROD_CREDIT_TYPE_PROG_USD_ID,
 } from "@app/lib/metronome/constants";
@@ -871,7 +872,7 @@ async function syncMetrics(): Promise<void> {
   for (const m of existing) {
     if (!desiredNames.has(m.name) && !isTestObject(m.name)) {
       console.log(
-        `  ⚠ ${EXECUTE ? "Archiving" : "[DRYRUN] Would archive"} stale metric: ${m.name} (${m.id})`
+        `  ! ${EXECUTE ? "Archiving" : "[DRYRUN] Would archive"} stale metric: ${m.name} (${m.id})`
       );
       if (EXECUTE) {
         await client.v1.billableMetrics.archive({ id: m.id });
@@ -1085,7 +1086,7 @@ async function syncProducts(): Promise<void> {
     const name = p.current?.name ?? "";
     if (!desiredNames.has(name) && !isTestObject(name)) {
       console.log(
-        `  ⚠ ${EXECUTE ? "Archiving" : "[DRYRUN] Would archive"} stale product: ${name} (${p.id})`
+        `  ! ${EXECUTE ? "Archiving" : "[DRYRUN] Would archive"} stale product: ${name} (${p.id})`
       );
       if (EXECUTE) {
         try {
@@ -1300,7 +1301,7 @@ async function syncRateCards(): Promise<void> {
   for (const r of existing) {
     if (!desiredNames.has(r.name) && !isTestObject(r.name)) {
       console.log(
-        `  ⚠ ${EXECUTE ? "Archiving" : "[DRYRUN] Would archive"} stale rate card: ${r.name} (${r.id})`
+        `  ! ${EXECUTE ? "Archiving" : "[DRYRUN] Would archive"} stale rate card: ${r.name} (${r.id})`
       );
       if (EXECUTE) {
         try {
@@ -1546,7 +1547,7 @@ async function syncPackages(): Promise<void> {
     const isDesired = aliases.some((a) => desiredAliases.has(a));
     if (!isDesired && !isTestObject(p.name)) {
       console.log(
-        `  ⚠ ${EXECUTE ? "Archiving" : "[DRYRUN] Would archive"} stale package: ${p.name} (${p.id})`
+        `  ! ${EXECUTE ? "Archiving" : "[DRYRUN] Would archive"} stale package: ${p.name} (${p.id})`
       );
       if (EXECUTE) {
         try {
@@ -1693,6 +1694,7 @@ const CUSTOM_FIELD_KEYS: Array<{
 }> = [
   { entity: "contract", key: "MAU_TIERS" },
   { entity: "contract", key: "MAU_THRESHOLD" },
+  { entity: "contract", key: PLAN_CODE_CUSTOM_FIELD_KEY },
 ];
 
 async function syncCustomFields(): Promise<void> {

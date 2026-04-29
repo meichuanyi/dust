@@ -2,6 +2,7 @@ import { useRegionContext } from "@app/lib/auth/RegionContext";
 import { emptyArray, useFetcher, useSWRWithDefaults } from "@app/lib/swr/swr";
 import { isRegionRedirect } from "@app/lib/swr/workspaces";
 import type { GetPokeNoWorkspaceAuthContextResponseType } from "@app/pages/api/poke/auth-context";
+import type { GetPokeMetronomePackagesResponseBody } from "@app/pages/api/poke/metronome/packages";
 import type { GetPokePlansResponseBody } from "@app/pages/api/poke/plans";
 import type { GetRegionResponseType } from "@app/pages/api/poke/region";
 import type { GetPokeWorkspaceAuthContextResponseType } from "@app/pages/api/poke/workspaces/[wId]/auth-context";
@@ -78,6 +79,29 @@ export function usePokePlans() {
     plans: data?.plans ?? emptyArray(),
     isPlansLoading: !error && !data,
     isPlansError: error,
+  };
+}
+
+export function usePokeMetronomePackages({
+  disabled,
+}: {
+  disabled?: boolean;
+} = {}) {
+  const { fetcher } = useFetcher();
+  const packagesFetcher: Fetcher<GetPokeMetronomePackagesResponseBody> =
+    fetcher;
+
+  const { data, error } = useSWRWithDefaults(
+    "/api/poke/metronome/packages",
+    packagesFetcher,
+    { disabled }
+  );
+
+  return {
+    packages: data?.packages ?? emptyArray(),
+    isPackagesLoading: !error && !data && !disabled,
+    isPackagesError: error,
+    packagesError: isAPIErrorResponse(error) ? error.error : null,
   };
 }
 
