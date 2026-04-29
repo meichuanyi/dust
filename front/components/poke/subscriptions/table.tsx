@@ -164,7 +164,6 @@ export function SubscriptionsDataTable({
 
 interface ActiveSubscriptionTableProps {
   owner: WorkspaceType;
-  hasMetronomeBilling: boolean;
   metronomeCustomerId: string | null;
   subscription: SubscriptionType;
   subscriptions: SubscriptionType[];
@@ -173,7 +172,6 @@ interface ActiveSubscriptionTableProps {
 
 export function ActiveSubscriptionTable({
   owner,
-  hasMetronomeBilling,
   metronomeCustomerId,
   subscription,
   subscriptions,
@@ -199,7 +197,6 @@ export function ActiveSubscriptionTable({
             />
             <UpgradeDowngradeModal
               owner={owner}
-              hasMetronomeBilling={hasMetronomeBilling}
               subscription={subscription}
               programmaticUsageConfig={programmaticUsageConfig}
             />
@@ -431,14 +428,12 @@ export function PlanLimitationsTable({
 
 interface UpgradeDowngradeModalProps {
   owner: WorkspaceType;
-  hasMetronomeBilling: boolean;
   subscription: SubscriptionType;
   programmaticUsageConfig: ProgrammaticUsageConfigurationType | null;
 }
 
 function UpgradeDowngradeModal({
   owner,
-  hasMetronomeBilling,
   subscription,
   programmaticUsageConfig,
 }: UpgradeDowngradeModalProps) {
@@ -560,7 +555,6 @@ function UpgradeDowngradeModal({
                 owner={owner}
                 subscription={subscription}
                 programmaticUsageConfig={programmaticUsageConfig}
-                hasMetronomeBilling={hasMetronomeBilling}
               />
             </div>
             {isProPlanPrefix(subscription.plan.code) && (
